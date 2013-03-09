@@ -1,0 +1,13 @@
+FTP Settings
+
+
+FTP Hostname: 	ftp.ulmb.com
+FTP Username: 	onechef.ulmb.com
+  	 
+Microsoft Frontpage Publishing Information:
+Server Type: 	FTP
+Publishing URL: 	ftp://ftp.ulmb.com/
+Username: 	onechef.ulmb.com
+  	 
+Home Directory: 	 
+/hosted/subs/ulmb.com/o/n/onechef/public_html
