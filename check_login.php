@@ -1,34 +1,42 @@
 <?php
-
 session_start();
-include("db.php");
-
-// username and password sent from Form
-$myusername=$_POST['username'];
-$mypassword=$_POST['password']; 
-
-$myusername = stripslashes($myusername);
-$mypassword = stripslashes($mypassword);
-$myusername = mysql_real_escape_string($myusername);
-$mypassword = mysql_real_escape_string($mypassword);
-$mypassword = md5($mypassword);
-
-$sql="SELECT * FROM users WHERE username='$myusername' and password='$mypassword'";
-$result=mysql_query($sql);
-$row = mysql_fetch_assoc($result);
-$count=mysql_num_rows($result);
-
-
-if($count==1)
-{
-	error_reporting(E_ALL);
-$_SESSION["user"]=$myusername;
-$_SESSION["user_id"] = $row['ID'];
-header("location: home.php");
-exit;
+include_once('db.php');
+$message=array();
+if(isset($_POST['uname']) && !empty($_POST['uname'])){
+    $uname=mysql_real_escape_string($_POST['uname']);
+}else{
+    $message[]='Please enter username';
 }
-else
-{
-echo "Your Login Name or Password is invalid";
+
+if(isset($_POST['password']) && !empty($_POST['password'])){
+    $password=mysql_real_escape_string($_POST['password']);
+	$password = md5($password);
+}else{
+    $message[]='Please enter password';
+}
+
+$countError=count($message);
+
+if($countError > 0){
+     for($i=0;$i<$countError;$i++){
+              echo ucwords($message[$i]).'<br/><br/>';
+     }
+}else{
+    $query="select * from users where username='$uname' and password='$password'";
+
+    $res=mysql_query($query);
+	$row = mysql_fetch_assoc($res);
+    $checkUser=mysql_num_rows($res);
+    if($checkUser > 0)
+	{     
+		
+         $_SESSION["user"]=$uname;
+		 $_SESSION["user_id"] = $row['ID'];
+		 echo 'correct';
+		
+	}
+	else{
+         echo 'Incorrect login details';
+    }
 }
 ?>
